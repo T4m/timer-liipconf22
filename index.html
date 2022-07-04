@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+.hidden {
+  display: none;
+}
+
+table td {
+  border: 1px solid #000000;
+  padding: 2px 7px;
+}
+  </style>
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+  <!-- Add your site or application content here -->
+  <p>Liip conf 2022 timer</p>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="stopTimer()">Stop</button>
+  <button onclick="resetTimer()">Reset</button>
+  <button onclick="reveal()">Reveal labels</button>
+  <br><br>
+
+  <table id="counters-table">
+    <tr><td>Time</td><td id="clock">0:0</td></tr>
+    <tr><td><span class="hidden">Land animals killed in Switzerland</span></td><td id="counter-swiss">0</td></tr>
+    <tr><td><span class="hidden">Land animals killed worldwide</span></td><td id="counter-world">0</td></tr>
+    <tr><td><span class="hidden">Ocean's animals killed worldwide</span></td><td id="counter-world-fishes">0</td></tr>
+  </table>
+
+  <script>
+console.log("START");
+
+const timerClockElement = window.document.getElementById("clock")
+const timerSwissElement = window.document.getElementById("counter-swiss")
+const timerWorldElement = window.document.getElementById("counter-world")
+const timerWorldElementFishes = window.document.getElementById("counter-world-fishes")
+
+let countClock = 0;
+
+let countSwiss = 0;
+// 77000000 / 365 / 24 / 60 / 60 / 10
+
+let countWorld = 0;
+// 2429187352 (2018)
+
+let countWorldFishes = 0;
+// 2000000000000 (2018)
+
+let timer;
+
+
+function formatNb(txt) {
+  txt = String(Math.floor(txt));
+  let arr = txt.split("");
+  for (let i = txt.length ; i > 0 ; i = i - 3) {
+    arr.splice(i, 0, "'");
+  }
+  txt = arr.join("");
+  return txt.substring(0, txt.length -1);
+}
+
+function startTimer() {
+  timer = setInterval(function (){
+  countClock += 0.100
+  countSwiss += 0.2442;
+  countWorld += 7.702902562;
+  countWorldFishes += 6341.958396753;
+
+  let allSeconds = Math.floor(countClock)
+  let seconds = allSeconds % 60;
+  let minutes = Math.floor(allSeconds / 60);
+
+  timerClockElement.innerHTML = minutes + ":" + seconds;
+  timerSwissElement.innerHTML = formatNb(countSwiss);
+  timerWorldElement.innerHTML = formatNb(countWorld);
+  timerWorldElementFishes.innerHTML = formatNb(countWorldFishes);
+}, 100);
+}
+
+
+function stopTimer() {
+  clearInterval(timer);
+}
+
+function resetTimer() {
+  countClock = 0;
+  countSwiss = 0;
+  countWorld = 0;
+  countWorldFishes = 0;
+
+  timerClockElement.innerHTML = "0:0";
+  timerSwissElement.innerHTML = "0";
+  timerWorldElement.innerHTML = "0";
+  timerWorldElementFishes.innerHTML = "0";
+}
+
+function reveal() {
+  let elements = window.document.getElementsByTagName("span");
+  [...elements].forEach(function(e){
+    e.classList.remove("hidden");
+  });
+}
+
+  </script>
+
+</body>
+
+</html>
